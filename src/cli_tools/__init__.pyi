@@ -10,7 +10,7 @@ class ConversionError(Exception): ...
 class APIError(Exception): ...
 
 
-def safe_run(debug: bool = False, exit_on_error: bool = True) -> AbstractContextManager[]: ...
+def safe_run(debug: bool = False, exit_on_error: bool = True) -> AbstractContextManager[None]: ...
 def try_until_ok(
     func: Callable[..., Any],
     *args: Any,
@@ -186,22 +186,6 @@ def get_hex_rgb(
     if_invalid: str = ...,
     on_keyboard_interrupt: Callable | None = None,
 ) -> str: ...
-def get_date_dmy(
-    prompt: str = ...,
-    validator: Callable[[str], bool] = ...,
-    *,
-    retry: bool = ...,
-    if_invalid: str = ...,
-    on_keyboard_interrupt: Callable | None = None,
-) -> date: ...
-def get_date_ymd(
-    prompt: str = ...,
-    validator: Callable[[str], bool] = ...,
-    *,
-    retry: bool = ...,
-    if_invalid: str = ...,
-    on_keyboard_interrupt: Callable | None = None,
-) -> date: ...
 def get_time(
     prompt: str = ...,
     validator: Callable[[str], bool] = ...,

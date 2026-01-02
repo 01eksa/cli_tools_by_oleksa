@@ -10,34 +10,27 @@ from .patterns import (
     USERNAME,
     EMAIL,
     HEX_RGB,
-    DATE_DMY,
-    DATE_YMD,
     TIME_24H,
 )
+from .validators import is_time, all_of
 
 
 class GeneratorParams(TypedDict):
     pattern: re.Pattern[Any]
+    validator: Callable[[str], bool]
     converter: Callable[[str], Any]
 
 
 INPUT_GENERATORS: dict[str, GeneratorParams] = {
-    "get_int": {"pattern": INT, "converter": int},
-    "get_float": {"pattern": FLOAT, "converter": float},
-    "get_number": {"pattern": NUMBER, "converter": float},
-    "get_username": {"pattern": USERNAME, "converter": str},
-    "get_email": {"pattern": EMAIL, "converter": str},
-    "get_hex_rgb": {"pattern": HEX_RGB, "converter": str},
-    "get_date_dmy": {
-        "pattern": DATE_DMY,
-        "converter": lambda x: datetime.strptime(x, "%d.%m.%Y").date(),
-    },
-    "get_date_ymd": {
-        "pattern": DATE_YMD,
-        "converter": lambda x: datetime.strptime(x, "%Y-%m-%d").date(),
-    },
+    "get_int": {"pattern": INT, 'validator': None, "converter": int},
+    "get_float": {"pattern": FLOAT, 'validator': None, "converter": float},
+    "get_number": {"pattern": NUMBER, 'validator': None, "converter": float},
+    "get_username": {"pattern": USERNAME, 'validator': None, "converter": str},
+    "get_email": {"pattern": EMAIL, 'validator': None, "converter": str},
+    "get_hex_rgb": {"pattern": HEX_RGB, 'validator': None, "converter": str},
     "get_time": {
         "pattern": TIME_24H,
+        'validator': is_time('%H:%M'),
         "converter": lambda x: datetime.strptime(x, "%H:%M").time(),
     },
 }
@@ -46,6 +39,7 @@ INPUT_GENERATORS: dict[str, GeneratorParams] = {
 def _generate_input_wrapper(
         name: str,
         pattern: re.Pattern,
+        _validator: Callable[[str], bool] | None,
         converter: Callable[[str], Any]
 ) -> Callable[..., Any]:
     """
@@ -61,22 +55,38 @@ def _generate_input_wrapper(
                       into the target type.
     :returns: A new specialized input function (Callable[..., Any]).
     """
-
-    def specialized_input_func(prompt: str = "",
-                               validator: Callable[[str], bool] = lambda x: True,
-                               default: Any = None,
-                               *,
-                               retry: bool = True,
-                               if_invalid: str = f'Invalid {name.replace("get_", "").upper()} format!',
-                               on_keyboard_interrupt: Callable | None = None) -> Any:
-        return get_input(prompt=prompt,
-                         pattern=pattern,
-                         validator=validator,
-                         converter=converter,
-                         default=default,
-                         retry=retry,
-                         if_invalid=if_invalid,
-                         on_keyboard_interrupt=on_keyboard_interrupt)
+    if _validator is None:
+        def specialized_input_func(prompt: str = "",
+                                   validator: Callable[[str], bool] = lambda x: True,
+                                   default: Any = None,
+                                   *,
+                                   retry: bool = True,
+                                   if_invalid: str = f'Invalid {name.replace("get_", "").upper()} format!',
+                                   on_keyboard_interrupt: Callable | None = None) -> Any:
+            return get_input(prompt=prompt,
+                             pattern=pattern,
+                             validator=validator,
+                             converter=converter,
+                             default=default,
+                             retry=retry,
+                             if_invalid=if_invalid,
+                             on_keyboard_interrupt=on_keyboard_interrupt)
+    else:
+        def specialized_input_func(prompt: str = "",
+                                   validator: Callable[[str], bool] = lambda x: True,
+                                   default: Any = None,
+                                   *,
+                                   retry: bool = True,
+                                   if_invalid: str = f'Invalid {name.replace("get_", "").upper()} format!',
+                                   on_keyboard_interrupt: Callable | None = None) -> Any:
+            return get_input(prompt=prompt,
+                             pattern=pattern,
+                             validator=all_of(_validator, validator),
+                             converter=converter,
+                             default=default,
+                             retry=retry,
+                             if_invalid=if_invalid,
+                             on_keyboard_interrupt=on_keyboard_interrupt)
 
     specialized_input_func.__name__ = name
     converter_name = converter.__name__ if hasattr(converter, "__name__") else "lambda"
@@ -99,6 +109,6 @@ def _build_input_api() -> dict[str, Callable]:
     """
     generated = {}
     for name, params in INPUT_GENERATORS.items():
-        func = _generate_input_wrapper(name, params["pattern"], params["converter"])
+        func = _generate_input_wrapper(name, params["pattern"], params['validator'], params["converter"])
         generated[name] = func
     return generated

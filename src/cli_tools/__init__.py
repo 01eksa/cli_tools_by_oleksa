@@ -12,6 +12,7 @@ from .utils import (
 )
 from .cli import (
     get_input,
+    get_password,
     get_choice,
     print_iterable,
     print_table,
@@ -39,6 +40,7 @@ __all__ = [
     'format_iterable',
     'format_table',
     'get_input',
+    'get_password',
     'get_choice',
     'print_iterable',
     'print_table',

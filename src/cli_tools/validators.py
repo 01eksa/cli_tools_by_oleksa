@@ -1,6 +1,7 @@
 import re
 from typing import Callable, TypeAlias
 from .utils import safe_float, split
+from datetime import datetime
 
 Number: TypeAlias = int | float
 
@@ -211,5 +212,39 @@ def less_or_equal(limit: Number) -> Callable[[str], bool]:
         if number is None:
             return False
         return number <= limit
+
+    return validator
+
+
+def is_date(format: str) -> Callable[[str], bool]:
+    """
+    Factory that creates a validator to check if a string matches a specific date format.
+
+    :param format: The date format string (e.g., '%Y-%m-%d') as expected by datetime.strptime.
+    :return: A validator function that returns True if the text can be parsed as a date, False otherwise.
+    """
+    def validator(text: str) -> bool:
+        try:
+            datetime.strptime(text, format).date()
+        except ValueError:
+            return False
+        return True
+
+    return validator
+
+
+def is_time(format: str) -> Callable[[str], bool]:
+    """
+    Factory that creates a validator to check if a string matches a specific time format.
+
+    :param format: The time format string (e.g., '%H:%M:%S') as expected by datetime.strptime.
+    :return: A validator function that returns True if the text can be parsed as a time, False otherwise.
+    """
+    def validator(text: str) -> bool:
+        try:
+            datetime.strptime(text, format).time()
+        except ValueError:
+            return False
+        return True
 
     return validator
