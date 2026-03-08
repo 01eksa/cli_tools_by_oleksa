@@ -32,10 +32,10 @@ https://github.com/01eksa/cli_tools_by_oleksa
 
 * **`get_input`** — The central function for user input. Features a robust pipeline (RegEx → Validator → Converter) and an  **automatic retry loop** (`retry=True` by default).
 * **`get_password`** — Securely prompts the user for a password (text is not echoed). It supports the full validation pipeline (RegEx → Validator) and **automatic retry logic**.
-* **Specialized `get_*` Wrappers** — Dynamically generated functions (e.g., `get_int`, `get_email`, `get_date_dmy`) that pre-package specific RegEx patterns and converters for immediate use.
+* **Specialized `get_*` Wrappers** — Dynamically generated functions (e.g., `get_int`, `get_email`, `get_time`) that pre-package specific RegEx patterns and converters for immediate use.
 * **Validator Factories** — Reusable functions that **generate** validators (`is_in_range`, `is_list_of`, etc.), allowing users to easily compose complex input validation logic.
 * **Validator Composition** — Combine multiple rules using `all_of` and `any_of` factories for complex, multi-stage data validation.
-* **Predefined Patterns** — A set of included **RegEx constants** (`INT`, `FLOAT`, `EMAIL`, `DATE_DMY`) available for immediate use in input validation.
+* **Predefined Patterns** — A set of included **RegEx constants** (`INT`, `FLOAT`, `EMAIL`, `TIME_24H`) available for immediate use in input validation.
 
 
 ---
@@ -93,7 +93,16 @@ pip install --upgrade cli_tools_by_oleksa
 
 ---
 
-## What's new in 2.2.0?
+## What's new in 2.3.0?
+* Added tests for core input functions 
+* Removed `DATE_DMY` and `DATE_YMD` patterns and `get_date_dmy` and `get_date_ymd` functions because of unsafety
+* Added `is_date` and `is_time` validators to safe check if strings match date / time format
+* Fixed issues with import `get_password`
+
+
+---
+
+### What's new in 2.2.0?
 * Added `on_interrupt` function to set default `KeyboardInterrupt` handling for all functions with `on_keyboard_interrupt` parameter.
 * Added simple progress bar context manager (look for example 3)
 * The source code is available on GitHub

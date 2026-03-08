@@ -25,14 +25,6 @@ followed by letters, numbers, or underscores."""
 EMAIL = re.compile(r"[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 """Matches a basic email format (user@domain.tld)."""
 
-
-# Datetime patterns
-DATE_DMY = re.compile(r"\d{2}\.\d{2}\.\d{4}")
-"""Matches a date in DD.MM.YYYY format."""
-
-DATE_YMD = re.compile(r"\d{4}-\d{2}-\d{2}")
-"""Matches a date in YYYY-MM-DD format."""
-
 TIME_24H = re.compile(r"(?:[01]\d|2[0-3]):[0-5]\d")
 """Matches a time in HH:MM format (24-hour clock)."""
 
