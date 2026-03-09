@@ -9,8 +9,8 @@ name = get_input(
     # DEMO: converter can modify input before return.
     # NOTE: For simple string ops like this, get_input().strip().capitalize() is cleaner.
     converter=lambda s: s.strip().capitalize(),
-    # returns 'Anonim' if the user presses Enter.
-    default='Anonim'
+    # returns 'Anonymous' if the user presses Enter.
+    default='Anonymous'
 )
 
 
