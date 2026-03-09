@@ -14,11 +14,11 @@ This toolkit is designed to eliminate the notorious boilerplate required for rel
 
 ### Target Audience
 
-**`cli_tools`** is the perfect choice for projects where simplicity and minimal dependencies are paramount:
+`cli_tools_by_oleksa` is the perfect choice for projects where simplicity and minimal dependencies are paramount:
 
-* **Students and Educators:** Write clean, readable code instantly without complex, low-level validation logic.
-* **Utility & Script Developers:** Build robust, highly interactive command-line tools and prototypes quickly, without adopting heavy frameworks like Click, Typer, or Rich.
-* **Clean Code Enthusiasts:** Achieve production-level reliability and polished user interaction while maintaining a zero-dependency footprint.
+* **Students and Educators:** Focus on logic, not boilerplate. Write clean code without reinventing complex validation every time.
+* **Utility & Script Developers:** Build robust, interactive tools and prototypes quickly, without the overhead of heavy frameworks like Click or Typer.
+* **Minimalist Developers:** Achieve production-level reliability and polished UI while maintaining a **zero-dependency** footprint.
 
 ### Source Code
 
@@ -66,7 +66,7 @@ https://github.com/01eksa/cli_tools_by_oleksa
 
 ### Styling & Formatting
 
-* **`stylize`** — Apply one or few styles to text.
+* **`stylize`** — Apply multiple styles to text.
 * **`rgb`** - Convert RGB (tuple or hex) into ANSI code for this color
 * **Style Helpers** — Ready-made, semantic functions (`error`, `success`, `warning`, `info`) for applying standard color schemes instantly.
 * **Style Constants** — Ready-to-use constants for foregrounds (`RED`), backgrounds (`BG_BLUE`), and attributes (`BOLD`, `UNDERLINE`).
@@ -145,8 +145,8 @@ name = get_input(
     # DEMO: converter can modify input before return.
     # NOTE: For simple string ops like this, get_input().strip().capitalize() is cleaner.
     converter=lambda s: s.strip().capitalize(),
-    # returns 'Anonim' if the user presses Enter.
-    default='Anonim'
+    # returns 'Anonymous' if the user presses Enter.
+    default='Anonymous'
 )
 
 
@@ -474,5 +474,5 @@ print(f"Success! Server response: {status}")
 **Next Steps (Feature Development):**
 - Progress bar and Spinners (High-level API)
 - Enhanced Validator Functionality:
-    - Expanding Built-in Validators: Adding new useful validators to the library.
+    - Expand built-in library with more specialized validators
   
