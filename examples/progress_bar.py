@@ -3,8 +3,8 @@ from cli_tools import progress_bar
 
 
 with progress_bar(1000, 'Processing...', length=20) as bar:
-    for i in range(1000):
-        sleep(0.01)
-        bar.update(steps=3)
+    for i in range(500):
+        sleep(0.01)             # do your job here
+        bar.update(steps=2)
 
 print('Done')
