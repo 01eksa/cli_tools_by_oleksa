@@ -93,12 +93,20 @@ pip install --upgrade cli_tools_by_oleksa
 
 ---
 
-## What's new in 2.3.0?
+### What's new in 2.4.0?
+* **Added new patterns:** `HEX_INT`, `SCIENTIFIC` (scientific notation), `SHORT_HEX_RGB`, and `ANY_HEX_RGB`.
+* **Enhanced numeric patterns:** `FLOAT` and `NUMBER` now support "lazy" syntax (e.g., `.5` and `5.`).
+* **Expanded `NUMBER` pattern:** Added full support for scientific notation (e.g., `1.2e-3`).
+* **Improved semantics:** Renamed `USERNAME` pattern to `IDENTIFIER`. `USERNAME` and `VAR` remain available as aliases.
+* **Fixed documentation:** Corrected the `progress_bar.py` usage example.
+
+---
+
+### What's new in 2.3.0?
 * Added tests for core input functions 
 * Removed `DATE_DMY` and `DATE_YMD` patterns and `get_date_dmy` and `get_date_ymd` functions because of unsafety
 * Added `is_date` and `is_time` validators to safe check if strings match date / time format
 * Fixed issues with import `get_password`
-
 
 ---
 
@@ -264,9 +272,9 @@ from cli_tools import progress_bar
 
 
 with progress_bar(1000, 'Processing...', length=20) as bar:
-    for i in range(1000):
-        sleep(0.01)
-        bar.update(steps=3)
+    for i in range(500):
+        sleep(0.01)             # do your job here
+        bar.update(steps=2)
 
 print('Done')
 
@@ -462,8 +470,6 @@ print(f"Success! Server response: {status}")
 
 **Next Steps (Technical & Infrastructure):**
 - Detailed documentation
-- Tests
-- Repository
 
 **Next Steps (Feature Development):**
 - Progress bar and Spinners (High-level API)
