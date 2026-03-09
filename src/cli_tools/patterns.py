@@ -8,19 +8,29 @@ ANY = re.compile(r".*")
 INT = re.compile(r"[+-]?\d+")
 """Matches any integer number, optionally prefixed with '+' or '-'."""
 
-FLOAT = re.compile(r"[+-]?\d+\.\d+")
+HEX_INT = re.compile(r"[+-]?0x[a-fA-F0-9]+")
+"""Matches any hexadecimal number, optionally prefixed with '+' or '-'."""
+
+FLOAT = re.compile("[+-]?(?:\d+\.\d*|\.\d+)")
 """Matches any floating-point number (must contain a decimal point), optionally prefixed with '+' or '-'."""
 
-NUMBER = re.compile(r"[+-]?\d+(?:\.\d+)?")
-"""Matches any number (integer or float), optionally prefixed with '+' or '-'."""
+SCIENTIFIC = re.compile("[+-]?(?:\d+\.\d*|\.\d+|\d+)[Ee][+-]?\d+")
+"""Matches numbers in scientific notation (e.g., 1.2e-3, 5E10)."""
+
+NUMBER = re.compile(r"[+-]?(?:\d+\.\d*|\.\d+|\d+)(?:[Ee][+-]?\d+)?")
+"""Matches any number (integer, float and scientific), optionally prefixed with '+' or '-'."""
 
 HEX_RGB = re.compile(r"#([a-fA-F0-9]{6})")
+SHORT_HEX_RGB = re.compile(r"#([a-fA-F0-9]{3})")
+ANY_HEX_RGB = re.compile(r"#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})")
 
 
 # Text patterns
-USERNAME = re.compile(r"[a-zA-Z_][a-zA-Z0-9_]*")
+IDENTIFIER = re.compile(r"[a-zA-Z_][a-zA-Z0-9_]*")
 """Matches a variable name or identifier: starts with a letter or underscore,
 followed by letters, numbers, or underscores."""
+USERNAME = IDENTIFIER
+VAR = IDENTIFIER
 
 EMAIL = re.compile(r"[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 """Matches a basic email format (user@domain.tld)."""
